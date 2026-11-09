@@ -1,0 +1,22 @@
+{% extends "admin/base_site.html" %}
+{% load i18n static %}
+
+{% block content %}
+<div id="content-main">
+  <h1>Импорт заказов из CSV</h1>
+  <p>
+    Загрузите CSV‑файл. Ожидаемые колонки: <code>username,delivery_address,promo_code,product_ids</code>.
+  </p>
+  <p>
+    <strong>product_ids</strong> — список ID товаров через запятую, например: <code>1,3,5</code>.
+    Все указанные товары должны существовать в базе.
+  </p>
+
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <p><small>Кодировка файла: UTF-8, разделитель — запятая.</small></p>
+    <input type="submit" value="Загрузить и импортировать">
+  </form>
+</div>
+{% endblock %}

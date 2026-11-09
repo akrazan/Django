@@ -1,0 +1,25 @@
+{% extends "shopapp/base.html" %}
+{% load cache %}
+
+{% block content %}
+    {% if orders %}
+        <h2>Пользователь '{{ owner.username }}' выполнил следующие заказы</h2>
+        {% cache 300 user_orders owner.pk %}
+            <ul>
+                {% for order in orders %}
+                    <li>
+                        Заказ №{{ order.pk }}
+                        (создан {{ order.created_at|date:"d.m.Y H:i" }})
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endcache %}
+        <div>
+            <a href= "{% url 'shopapp:user_orders_export' user_id=owner.pk %}" >
+                Выгрузка заказов пользователя '{{ owner.username }}' в формате JSON
+            </a>
+        </div>
+    {% else %}
+        <h2>У пользователя '{{ owner.username }}' ещё нет заказов</h2>
+    {% endif %}
+{% endblock %}

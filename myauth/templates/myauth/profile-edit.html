@@ -1,0 +1,26 @@
+{% extends "myauth/base.html" %}
+
+{% block title %}Редактирование профиля: {{ target_user.username }}{% endblock %}
+
+{% block body %}
+    <h2>Редактирование профиля: {{ target_user.username }}</h2>
+    <div>
+      {% if object.avatar %}
+        <img src="{{ object.avatar.url }}" alt="Текущий аватар" style="max-width: 200px; border-radius: 8px;">
+      {% else %}
+        <div style="width:200px; height:200px; background:#eee; display:flex; align-items:center; justify-content:center; border-radius:8px;">Нет аватара</div>
+      {% endif %}
+    </div>
+    <div>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Сохранить</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href=" {% url 'myauth:user-detail' target_user.pk %} ">Вернуться в профиль</a>
+    </div>
+{% endblock %}
+product_list

@@ -1,0 +1,29 @@
+[project]
+name = "PythonShopappDjango"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Aleksandr Nazarenko",email = "aanazarenko@mail.ru"}
+]
+readme = "README.md"
+requires-python = ">=3.12,<3.13"
+dependencies = [
+    "django==4.2.13",
+    "gunicorn==26.2.0",
+    "python-dotenv==1.2.4",
+    "django-debug-toolbar==4.4.0",
+    "django-filter==24.3",
+    "djangorestframework==3.14.0",
+    "pillow==10.4.0",
+    "pytz==2026.6",
+    "whitenoise (>=6.12.0,<7.0.0)",
+]
+
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+
+
+[tool.poetry]
+package-mode = false

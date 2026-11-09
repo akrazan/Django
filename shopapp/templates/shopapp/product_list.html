@@ -1,0 +1,43 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Каталог товаров{% endblock %}
+
+{% block content %}
+    <h2>Каталог товаров</h2>
+    <div>
+    {% if perms.shopapp.add_product %}
+            <a href="{% url 'shopapp:product_create' %}">Добавить новый товар</a>
+    {% endif %}
+    </div>
+        <br>
+    <div>
+    {% if object_list %}
+        <table>
+          <thead>
+            <tr>
+              <th>Номер</th>
+              <th>Название</th>
+              <th>Описание</th>
+              <th>Цена</th>
+              <th>Скидка</th>
+              <th>Архив</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for product in object_list %}
+              <tr>
+                <td>{{ product.id }}</td>
+                <td><a href= "{% url 'shopapp:product_detail' pk=product.pk %}" ><strong>{{ product.name }}</strong></a></td>
+                <td>{{ product.description|default:"Описание товара отсутствует."|truncatechars:70 }}</td>
+                <td>{{ product.price }}</td>
+                <td>{{ product.discount }}</td>
+                <td>{{ product.archived }}</td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+    {% else %}
+        <p>Каталог товаров пока отсутствует.</p>
+    {% endif %}
+    </div>
+{% endblock %}

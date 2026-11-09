@@ -1,0 +1,51 @@
+{% extends "myauth/base.html" %}
+
+{% block title %}Профиль {{ target_user.username }}{% endblock %}
+
+{% block body %}
+  <h1>Профиль: {{ target_user.username }}</h1>
+
+  {% with prof=target_user.profile %}
+    {% if prof.avatar %}
+      <img src="{{ prof.avatar.url }}" alt="{{ target_user.username }}" style="max-width: 150px;">
+    {% else %}
+      <p>Аватар отсутствует</p>
+    {% endif %}
+
+    <p><strong>Имя:</strong> {{ target_user.first_name|default:"—" }}</p>
+    <p><strong>Фамилия:</strong> {{ target_user.last_name|default:"—" }}</p>
+    <p><strong>Email:</strong> {{ target_user.email|default:"—" }}</p>
+    <p><strong>Bio:</strong> {{ prof.bio|default:"Не указано" }}</p>
+
+    <hr>
+
+    <!-- Ссылка на редактирование профиля -->
+    {% if user == target_user or user.is_staff or user.is_superuser %}
+      <p>
+        <a href="{% url 'myauth:change-avatar' target_user.pk %}" target="_blank">Изменить аватар</a>
+      </p>
+      <p>
+        <a href="{% url 'myauth:profile-edit' target_user.pk %}">
+          {% if user == target_user %}
+            Редактировать мой профиль
+          {% else %}
+            Редактировать профиль (админ)
+          {% endif %}
+        </a>
+      </p>
+    {% endif %}
+    {% if user == target_user %}
+        {% if user.is_superuser or user.is_staff %}
+            <p>
+                <a href="{% url 'admin:index' %}" target="_blank">Перейти в админку</a>
+            </p>
+        {% endif %}
+        <p>
+            <a href="{% url 'myauth:logout' %}">Выйти из аккаунта</a>
+        </p>
+    {% endif %}
+
+  {% endwith %}
+
+  <p><a href="{% url 'myauth:user-list' %}">← Назад к списку</a></p>
+{% endblock %}

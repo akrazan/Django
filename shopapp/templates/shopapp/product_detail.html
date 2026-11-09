@@ -1,0 +1,25 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}
+    Товар № {{object.pk}}
+{% endblock %}
+
+{% block content %}
+    <h2>Товар {{object.name}}</h2>
+    <div>
+        <p>Номер: {{object.pk}}</p>
+        <p>Название: {{object.name}}</p>
+        <p>Цена: {{object.price}}</p>
+        <p>Скидка: {{object.discount|default:0}}</p>
+        <p>Описание: {{object.description|default:"Описание отсутствует."}}}</p>
+    </div>
+    <div>
+        <a href="{% url 'shopapp:product_update' pk=object.pk %}">Изменить товар</a>
+    </div>
+    <div>
+        <a href="{% url 'shopapp:product_archive' pk=object.pk %}">Архивировать товар</a>
+    </div>
+    <div>
+        <a href="{% url 'shopapp:product_list' %}">Вернуться в список товаров</a>
+    </div>
+{% endblock %}

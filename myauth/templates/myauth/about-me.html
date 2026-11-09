@@ -1,0 +1,47 @@
+{% extends "myauth/base.html" %}
+
+{% block title %}О себе — {{ request.user.username }}{% endblock %}
+
+{% block body %}
+<div>
+  <h1>О себе</h1>
+
+  <div>
+    <div>
+      {% if profile.avatar %}
+        <img src="{{ profile.avatar.url }}" alt="Аватар" class="avatar">
+      {% else %}
+        <div>Нет аватара</div>
+      {% endif %}
+    </div>
+
+    <div>
+      <p><strong>Имя:</strong> {{ request.user.first_name|default:"—" }}</p>
+      <p><strong>Фамилия:</strong> {{ request.user.last_name|default:"—" }}</p>
+      <p><strong>Email:</strong> {{ request.user.email|default:"—" }}</p>
+
+      <h3>О себе</h3>
+      <div>
+        {% if profile.bio %}
+          {{ profile.bio|linebreaks }}
+        {% else %}
+          <em>Пока ничего не написано.</em>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+  <a href="{% url 'myauth:change-my-avatar' %}" class="btn btn-primary">Сменить аватар</a>
+</div>
+<div>
+
+        {% if request.user.is_superuser or request.user.is_staff %}
+            <p>
+                <a href="{% url 'admin:index' %}" target="_blank">Перейти в админку</a>
+            </p>
+        {% endif %}
+
+        <p>
+            <a href="{% url 'myauth:logout' %}">Выйти из аккаунта</a>
+        </p>
+</div>
+{% endblock %}

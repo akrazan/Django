@@ -1,0 +1,18 @@
+{% extends "myauth/base.html" %}
+{% block title %}Сменить аватар: {{ target_user.username }}{% endblock %}
+{% block body %}
+  <h2>Сменить аватар: {{ target_user.username }}</h2>
+    <div>
+      {% if target_user.profile.avatar %}
+        <img src="{{ target_user.profile.avatar.url }}" alt="Текущий аватар" style="max-width: 200px; border-radius: 8px;">
+      {% else %}
+        <div style="width:200px; height:200px; background:#eee; display:flex; align-items:center; justify-content:center; border-radius:8px;">Нет аватара</div>
+      {% endif %}
+    </div>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Сохранить</button>
+  </form>
+  <p><a href="{% url 'myauth:user-detail' target_user.pk %}">← Назад</a></p>
+{% endblock %}

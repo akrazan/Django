@@ -1,0 +1,25 @@
+services:
+  app:
+    build:
+      dockerfile: ./Dockerfile
+    command:
+      - gunicorn
+      - config.wsgi:application
+      - --bind
+      - "0.0.0.0:8000"
+    ports:
+      - "8000:8000"
+    restart: always
+    user: "1000:1000"
+    environment:
+      - HOME=/tmp
+    env_file:
+      - .env
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+    volumes:
+      - ./db:/app/db
+      - ./uploads:/app/uploads

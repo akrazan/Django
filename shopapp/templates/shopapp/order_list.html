@@ -1,0 +1,54 @@
+{% extends "shopapp/base.html" %}
+
+{% block title %}Реестр заказов{% endblock %}
+
+{% block content %}
+    <h2>Реестр заказов</h2>
+    <div>
+        <a href="{% url 'shopapp:order_create' %}">Новый заказ</a>
+    </div>
+        <br>
+    <div>
+    {% if object_list %}
+        <table>
+          <thead>
+            <tr>
+              <th>Номер</th>
+              <th>Дата</th>
+              <th>Заказчик</th>
+              <th>Место доставки</th>
+              <th>Промокод</th>
+              <th>Товары</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for order in object_list %}
+              <tr>
+                <td><a href= "{% url 'shopapp:order_detail' pk=order.pk %}" >Заказ № {{ order.id }}</a></td>
+                <td>{{ order.created_at|date:"d.m.Y" }}</td>
+                <td>
+                    {% if order.user.first_name or order.user.last_name %}
+                        {{ order.user.first_name }} {{ order.user.last_name }}
+                    {% else %}
+                        {{ order.user.username }}
+                    {% endif %}
+                </td>
+                <td>{{ order.delivery_address }}</td>
+                <td>{{ order.promo_code }}</td>
+                <td>
+                    <ul>
+                        {% for product in order.products.all %}
+                            <li>{{ product.name }} - {{ product.price }} ₽</li>
+                        {% endfor %}
+                    </ul>
+                </td>
+              </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+
+    {% else %}
+        <p>Заказы пока отсутствуют.</p>
+    {% endif %}
+    </div>
+{% endblock %}
